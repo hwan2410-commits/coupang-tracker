@@ -32,8 +32,8 @@ def parse_price(text: str) -> int:
     cleaned = re.sub(r"[^\d]", "", text)
     return int(cleaned) if cleaned else 0
 
-def _sync_scrape(category_id: str, query: str, max_products: int = 40) -> list:
-    url = f"https://search.danawa.com/dsearch.php?query={quote(query)}&sort=priceAsc&page=1"
+def _sync_scrape(category_id: str, query: str, max_products: int = 60) -> list:
+    url = f"https://search.danawa.com/dsearch.php?query={quote(query)}&sort=multiple&page=1"
     products = []
 
     with sync_playwright() as p:
@@ -106,7 +106,7 @@ def _sync_scrape(category_id: str, query: str, max_products: int = 40) -> list:
 
                     if name and price >= 1000:
                         products.append({
-                            "product_id": re.search(r"pcode=(\d+)", product_url or "").group(1) if product_url and "pcode=" in product_url else "",
+                            "product_id": pcode,
                             "name": name,
                             "price": price,
                             "original_price": price,

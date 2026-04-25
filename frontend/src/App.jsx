@@ -117,8 +117,9 @@ export default function App() {
           ) : products.length === 0 ? (
             <div className="flex items-center justify-center h-64">
               <div className="text-center">
-                <div className="text-5xl mb-3">📦</div>
-                <p className="text-gray-500 text-sm">상품이 없습니다. 새로고침을 눌러주세요.</p>
+                <div className="text-5xl mb-3">⏳</div>
+                <p className="text-gray-700 font-medium text-sm">데이터 수집 중입니다</p>
+                <p className="text-gray-400 text-xs mt-1">서버 시작 후 약 10분 소요됩니다. 잠시 후 새로고침 해주세요.</p>
               </div>
             </div>
           ) : (
