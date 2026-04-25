@@ -5,16 +5,16 @@ from urllib.parse import quote
 from playwright.sync_api import sync_playwright
 
 CATEGORIES = [
-    {"id": "food",     "name": "식품",       "query": "라면 과자 음료 식품"},
-    {"id": "fashion",  "name": "패션의류",   "query": "티셔츠 청바지 원피스"},
-    {"id": "digital",  "name": "가전/디지털", "query": "노트북 스마트폰 이어폰"},
-    {"id": "living",   "name": "생활용품",   "query": "세제 휴지 치약 생활용품"},
-    {"id": "beauty",   "name": "뷰티/화장품", "query": "스킨 로션 마스크팩 화장품"},
-    {"id": "kitchen",  "name": "주방용품",   "query": "냄비 프라이팬 주방용품"},
-    {"id": "sports",   "name": "스포츠/레저", "query": "운동화 요가매트 스포츠"},
-    {"id": "baby",     "name": "출산/육아",  "query": "기저귀 분유 유아용품"},
-    {"id": "pet",      "name": "반려동물",   "query": "강아지사료 고양이사료 펫"},
-    {"id": "health",   "name": "건강/의료",  "query": "비타민 영양제 건강식품"},
+    {"id": "food",     "name": "식품",       "query": "라면"},
+    {"id": "fashion",  "name": "패션의류",   "query": "티셔츠"},
+    {"id": "digital",  "name": "가전/디지털", "query": "이어폰"},
+    {"id": "living",   "name": "생활용품",   "query": "세제"},
+    {"id": "beauty",   "name": "뷰티/화장품", "query": "마스크팩"},
+    {"id": "kitchen",  "name": "주방용품",   "query": "프라이팬"},
+    {"id": "sports",   "name": "스포츠/레저", "query": "요가매트"},
+    {"id": "baby",     "name": "출산/육아",  "query": "기저귀"},
+    {"id": "pet",      "name": "반려동물",   "query": "강아지사료"},
+    {"id": "health",   "name": "건강/의료",  "query": "비타민"},
 ]
 
 _executor = ThreadPoolExecutor(max_workers=1)
@@ -64,8 +64,11 @@ def _sync_scrape(category_id: str, query: str, max_products: int = 40) -> list:
                     name_el = item.query_selector(".prod_name a")
                     name = name_el.inner_text().strip() if name_el else ""
 
-                    # 가격: 다나와 최저가 그대로
-                    price_el = item.query_selector(".price_sect strong, .price_sect a strong, .lowest_price strong")
+                    price_el = item.query_selector(
+                        ".price_sect strong, .price_sect a strong, "
+                        ".lowest_price strong, .prd_price strong, "
+                        ".buy_price strong, .price strong, em.price_num"
+                    )
                     price_text = price_el.inner_text().strip() if price_el else ""
                     price = parse_price(price_text)
 
