@@ -65,7 +65,7 @@ async def list_categories():
 async def list_products(
     category_id: str = Query(None),
     sort: str = Query("price"),
-    limit: int = Query(50, le=100),
+    limit: int = Query(60, le=500),
 ):
     products = await get_products(category_id=category_id, limit=limit, sort=sort)
     return products

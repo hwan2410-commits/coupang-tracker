@@ -22,7 +22,7 @@ export default function App() {
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     try {
-      const params = new URLSearchParams({ sort, limit: 60 });
+      const params = new URLSearchParams({ sort, limit: selectedCategory ? 60 : 400 });
       if (selectedCategory) params.set("category_id", selectedCategory);
       const res = await fetch(`${API}/products?${params}`);
       const data = await res.json();

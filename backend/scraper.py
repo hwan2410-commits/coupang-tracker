@@ -122,7 +122,7 @@ def _sync_scrape(category_id: str, query: str, max_products: int = 40) -> list:
 
     return products
 
-async def scrape_category(category_id: str, max_products: int = 40) -> list:
+async def scrape_category(category_id: str, max_products: int = 60) -> list:
     cat = next((c for c in CATEGORIES if c["id"] == category_id), None)
     if not cat:
         return []
