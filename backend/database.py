@@ -2,7 +2,8 @@ import aiosqlite
 import json
 from datetime import datetime
 
-DB_PATH = "products.db"
+import os
+DB_PATH = os.getenv("DB_PATH", "products.db")
 
 async def init_db():
     async with aiosqlite.connect(DB_PATH) as db:
