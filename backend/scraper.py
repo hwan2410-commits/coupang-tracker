@@ -87,10 +87,11 @@ def _sync_scrape(category_id: str, query: str, max_products: int = 40) -> list:
                     link_el = item.query_selector(".prod_name a")
                     product_url = link_el.get_attribute("href") if link_el else ""
 
-                    # pcode 추출 후 이미지 URL 직접 생성
                     pcode_match = re.search(r"pcode=(\d+)", product_url or "")
                     pcode = pcode_match.group(1) if pcode_match else ""
                     image_url = pcode_to_img(pcode) if pcode else image_url
+                    if pcode:
+                        product_url = f"https://prod.danawa.com/info/?pcode={pcode}"
 
                     review_el = item.query_selector(".star_total_count, .cnt_opinion")
                     review_text = review_el.inner_text().strip() if review_el else ""
@@ -103,7 +104,7 @@ def _sync_scrape(category_id: str, query: str, max_products: int = 40) -> list:
                     except ValueError:
                         rating = None
 
-                    if name and price > 0:
+                    if name and price >= 1000:
                         products.append({
                             "product_id": re.search(r"pcode=(\d+)", product_url or "").group(1) if product_url and "pcode=" in product_url else "",
                             "name": name,
