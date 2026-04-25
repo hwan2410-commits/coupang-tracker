@@ -42,14 +42,9 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="쿠팡 최저가 트래커", lifespan=lifespan)
 
-_cors_origins = os.getenv(
-    "CORS_ORIGINS",
-    "http://localhost:5173,http://localhost:5174,http://localhost:3000"
-).split(",")
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=_cors_origins,
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
